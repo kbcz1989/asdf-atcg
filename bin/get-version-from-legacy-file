@@ -5,11 +5,11 @@
 # See https://github.com/Banno/asdf-hashicorp for the original source
 get_legacy_version() {
     local -r current_directory="$1"
-    local -r tmcg_version_file="${current_directory}/.tmcg-version"
+    local -r atcg_version_file="${current_directory}/.atcg-version"
 
-    # Get version from .tmcg-version file (used by tgenv)
-    if [[ -r ${tmcg_version_file} ]]; then
-        cat "${tmcg_version_file}"
+    # Get version from .atcg-version file (used by tgenv)
+    if [[ -r ${atcg_version_file} ]]; then
+        cat "${atcg_version_file}"
     fi
 }
 

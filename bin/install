@@ -14,7 +14,7 @@ install() {
   local install_path=$3
 
   local bin_install_path="$install_path/bin"
-  local bin_path="${bin_install_path}/tmcg"
+  local bin_path="${bin_install_path}/atcg"
 
   local platform
   [ "Linux" = "$(uname)" ] && platform="linux" || platform="darwin"
@@ -28,11 +28,11 @@ install() {
   fi
 
   local download_url
-  download_url="https://github.com/kbcz1989/tmcg/releases/download/v${version}/tmcg-${platform}-${arch}"
+  download_url="https://github.com/kbcz1989/atcg/releases/download/v${version}/atcg-${platform}-${arch}"
 
   mkdir -p "${bin_install_path}"
 
-  echo "Downloading tmcg from ${download_url}"
+  echo "Downloading atcg from ${download_url}"
 
   STATUSCODE=$(curl -q --write-out "%{http_code}" -Lo "$bin_path" -C - "$download_url")
 
