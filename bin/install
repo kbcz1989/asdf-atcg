@@ -28,7 +28,7 @@ install() {
   fi
 
   local download_url
-  download_url="https://github.com/kbcz1989/tmcg/releases/download/v${version}/tmcg_${platform}_${arch}"
+  download_url="https://github.com/kbcz1989/tmcg/releases/download/v${version}/tmcg-${platform}-${arch}"
 
   mkdir -p "${bin_install_path}"
 
