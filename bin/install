@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+[ -z "${ASDF_INSTALL_TYPE+x}" ] && echo "ASDF_INSTALL_TYPE is required" && exit 1
+[ -z "${ASDF_INSTALL_VERSION+x}" ] && echo "ASDF_INSTALL_VERSION is required" && exit 1
+[ -z "${ASDF_INSTALL_PATH+x}" ] && echo "ASDF_INSTALL_PATH is required" && exit 1
+
+install() {
+  local install_type=$1
+  [ "$install_type" != "version" ] && echo "install type, $install_type, is not supported" && exit 1
+
+  local version=$2
+  local install_path=$3
+
+  local bin_install_path="$install_path/bin"
+  local bin_path="${bin_install_path}/tmcg"
+
+  local platform
+  [ "Linux" = "$(uname)" ] && platform="linux" || platform="darwin"
+  
+  local arch
+  uname_arch=$(uname -m)
+  if [ "x86_64" = $uname_arch ]; then 
+	  arch="amd64" 
+  elif [ "arm64" =  $uname_arch ]; then
+	  arch="arm64"
+  fi
+
+  local download_url
+  download_url="https://github.com/kbcz1989/tmcg/releases/download/v${version}/tmcg_${platform}_${arch}"
+
+  mkdir -p "${bin_install_path}"
+
+  echo "Downloading tmcg from ${download_url}"
+
+  STATUSCODE=$(curl -q --write-out "%{http_code}" -Lo "$bin_path" -C - "$download_url")
+
+  if test "${STATUSCODE}" -ne 200; then
+    echo "Binary for version '${version}' was not found or could not be retrieved."
+    exit 1
+  fi
+
+  chmod +x "$bin_path"
+}
+
+install "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
+
